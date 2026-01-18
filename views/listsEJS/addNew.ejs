@@ -1,0 +1,72 @@
+<%-layout("/layout/boilerPlate")-%>
+<body>
+    
+    <div class="row">
+        
+        <div class="col-8 offset-2" >
+            <h1>Create a New listing </h1>
+    <form  class="newform needs-validation" action="/listings/new" method="post" novalidate enctype="multipart/form-data"><br>
+        <div class="mb-3">
+          <label for="title" class="form-label">title</label>
+          <input type="text" name="listing[title]" placeholder="enter your name here!!!!!!" class="form-control"  required>
+          <div class="valid-feedback">Title looks perfect!!</div>
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">description</label>
+            <textarea name="listing[description]" id="description" rows="5" cols="10" placeholder="enter description" class="form-control"  required></textarea>
+            <div class="invalid-feedback"> Please enter description</div>
+        </div>
+        <!-- <div class="mb-3">
+            <label for="image" class="form-label">image</label>
+            <input type="text" name="listing[url]" placeholder="url" class="form-control" >
+        </div> -->
+        <div class="mb-3">
+            <label for="image" class="form-label">image</label>
+            <input type="file" name="listing[image]" placeholder="url" class="form-control" >
+        </div>
+        <div class="mb-3">
+            <label for="price" class="form-label">price</label>
+            <input type="string" name="listing[price]" placeholder="price" class="form-control" required >
+            <div class="invalid-feedback">Enter valid price</div>
+        </div>
+        <div class="row">
+        <div class="mb-3 col-4">
+            <label for="location" class="form-label">location</label>
+            <input type="text" name="listing[location]" placeholder="enter location" class="form-control"  required>
+            <div class="invalid-feedback">Enter location</div>
+        </div>
+        <div class="mb-3 col-8">
+            <label for="country" class="form-label">country</label>
+            <input type="text" name="listing[country]" placeholder="enter location" class="form-control"  required>
+            <div class="invalid-feedback">Enter country</div>
+        </div>
+        </div>
+     
+          <button type="submit" class="btn btn-dark" class="form-control">submit</button>
+    </form>
+    </div>
+  </div>
+  <script>// Example starter JavaScript for disabling form submissions if there are invalid fields
+(() => {
+  'use strict'
+
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  const forms = document.querySelectorAll('.needs-validation')
+
+  // Loop over them and prevent submission
+  Array.from(forms).forEach(form => {
+    form.addEventListener('submit', event => {
+      if (!form.checkValidity()) {
+        event.preventDefault()
+        event.stopPropagation()
+      }
+
+      form.classList.add('was-validated')
+    }, false)
+  })
+})()
+</script>
+</body>
+
+
+

@@ -1,0 +1,116 @@
+if(process.env.NODE_ENV !="production"){
+    require("dotenv").config()
+}
+
+
+const express = require("express");
+const app = express();
+const port = 8080;
+const path=require("path");
+const mongoose=require("mongoose");
+const methodOverride=require("method-override");
+const ExpressError=require("./utils/ExpressError.js");
+let  engine = require('ejs-mate');
+const session=require("express-session");
+const MongoStore = require("connect-mongo");
+const flash=require("connect-flash");
+const passport=require("passport");
+const LocalStrategy=require("passport-local");
+const User=require("./models/user")
+
+app.engine('ejs', engine);
+
+app.use(express.urlencoded({extended:true}));
+app.use(methodOverride("_method"));
+app.use(express.static(path.join(__dirname,"public")));
+
+app.set("view engine","ejs");
+app.set("views",(path.join(__dirname,"views")));
+
+let listingRoute=require("./routes/listingRoute.js")
+let reviewRoute=require("./routes/reviewRoute.js")
+let userRoute=require("./routes/userRoute.js")
+
+
+async function main(params) {
+    await mongoose.connect(process.env.DB_LINK)
+}
+
+main()
+    .then((res)=>{
+        console.log("connection is successfull.")
+    })
+    .catch((err)=>{
+        console.log(err)
+    })
+
+
+// let store=MongoStore.create({
+//     client: mongoose.connection.getClient(),
+//     crypto:{
+//         secret:process.env.MY_SECRET;
+//     },
+//     touchAfter:24 * 60 *60
+// })
+
+// store.on("error",()=>{
+//     console.log("error in mongoose session store")
+// })
+
+//include store
+const sessionOptions={
+    secret:process.env.MY_SECRET,
+    resave:false,
+    saveUninitialized:true,
+    cookies:{
+        expires:Date.now() + 10 * 24 * 60 * 60 * 1000,
+        maxAge:10 * 24 * 60 * 60 * 1000,
+        httpOnly:true
+    }
+}
+
+
+
+
+app.use(session(sessionOptions));
+app.use(flash());
+
+// Passport work
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+
+app.use((req,res,next)=>{
+    res.locals.success=req.flash("success")
+    res.locals.failure=req.flash("failure")
+    res.locals.userInfo=req.user;
+    next();
+})
+
+
+app.use("/listings",listingRoute);
+app.use("/listings/:id/reviews",reviewRoute);
+app.use("/listings/:id/review",reviewRoute);
+app.use("/",userRoute)
+
+
+
+app.all(/.*/, (req, res,next) => {
+  next(new ExpressError(404,"Page not found"))
+});
+
+app.use((err,req,res,next)=>{
+    let {status=420,message="something went wrong"}=err;
+    res.render("./listsEJS/error.ejs",{message})
+    
+})
+
+
+app.listen(port,()=>{
+    console.log(`app is listening Port-no.${port}`);
+})
+
+

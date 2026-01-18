@@ -1,0 +1,68 @@
+<%-layout('/layout/boilerplate') -%>
+<body>
+
+
+<div id="filters"  >
+   <!-- <div class="filter ">
+      <div ><i class="fa-solid fa-fire"></i></div>
+      <p>trending</p>
+   </div> 
+   <div class="filter">
+      <div ><i class="fa-solid fa-bed"></i></div>
+      <p>rooms</p>
+   </div>
+   <div class="filter ">
+      <div ><i class="fa-solid fa-fire"></i></div>
+      <p>trending</p>
+   </div> 
+   <div class="filter">
+      <div ><i class="fa-solid fa-bed"></i></div>
+      <p>rooms</p>
+   </div>
+      <div class="filter ">
+      <div ><i class="fa-solid fa-fire"></i></div>
+      <p>trending</p>
+   </div> 
+   <div class="filter">
+      <div ><i class="fa-solid fa-bed"></i></div>
+      <p>rooms</p>
+   </div>
+      <div class="filter ">
+      <div ><i class="fa-solid fa-fire"></i></div>
+      <p>trending</p>
+   </div> 
+   <div class="filter">
+      <div ><i class="fa-solid fa-bed"></i></div>
+      <p>rooms</p>
+   </div>
+      <div class="filter ">
+      <div ><i class="fa-solid fa-fire"></i></div>
+      <p>trending</p>
+   </div> 
+   <div class="filter">
+      <div ><i class="fa-solid fa-bed"></i></div>
+      <p>rooms</p>
+   </div> -->
+</div>
+
+<div class="row row-cols-lg-5 row-cols-md-4 row-cols-sm-3 row-cols-xs-2 listings-main mt-3" >
+    <% for(let each of data){ %>
+ <div class="card col" >
+    <a href="/listings/view/<%=each._id%>">
+  <img src="<%=each.image.url%>" class="card-img-top" alt="listing-image">
+   <div class="card-img-overlay"></div>
+  <div class="card-body">
+    <h6 class="card-title"><%=each.title%></h6>
+    <p class="card-text price">&#x20B9;<%=each.price.toLocaleString("en-IN")%>/night </p>
+  </div>
+  </a>
+</div>
+<% } %>
+</div>
+</body>
+
+
+
+
+
+

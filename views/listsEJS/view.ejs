@@ -1,0 +1,183 @@
+<%-layout("/layout/boilerPlate")-%>
+
+  <style>
+    .price{
+      display: flex;
+      margin-top: 0.3rem;
+      margin-left: 0.4rem;
+    }
+    .tax-switch{
+
+      padding-left: 1rem;
+      padding-right: 1rem;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      
+    }
+    .tax{
+      display: none;
+    }
+
+    .fa-map-pin,.fa-map-location{
+      font-size: large;
+    }
+    .desc{
+      margin-left: 0.3rem;
+    }
+
+  </style>
+<body >
+  <!-- view page -->
+    <div class="row ">
+        <div class="col-8 offset-2">
+<div class="card col-8 offset-2 mt-5">
+      <h5><b class="card-text"><%=listItem.title%></b></h5><br>
+  <img class="card-img-top view-image " src="<%=listItem.image.url%>" alt="Card image cap" >
+  <div class="card-body view-body">
+    <div class="card-text"><h5></div><b><i>@<%=listItem.owner.username%></i></b> </h5></div>
+        <div class="card-text desc"><h6><%=listItem.description%></h6></div>
+ <div class="card-text">
+    <h6>
+          <div class="price">
+      <div class="originalPrice">
+            &#x20B9; <%=listItem.price.toLocaleString("en-IN")%> /night&nbsp; <i class="tax"> +18 % GST</i>
+       </div>
+        <div class="tax-switch ms-auto">
+         <div class="form-check form-switch">
+          <label class="form-check-label" for="flexSwitchCheckDefault"><h6>Include Taxes</h6></label>
+          <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+         </div>
+       </div>
+      </div>
+    </h6>
+  </div>
+  <div class="locations">
+  <h6><i class="fa-solid fa-map-pin"></i><%=listItem.location%> </h6>
+  <div class="card-text"><h6><i class="fa-solid fa-map-location"></i>  <%=listItem.country%> </h6></div>
+  </div>
+  </div>
+
+
+    <div class="btns">
+           <% if(userInfo && userInfo._id.equals(listItem.owner._id)){ %>
+          <form action="/listings/edit/<%=listItem._id%>"  method="get">
+        <button class="btn btn-dark" >Edit</button>
+    </form>
+
+    <form action="/listings/delete/<%=listItem._id%>?_method=DELETE" method="post">
+        <button class="btn btn-dark offset-2" style="background-color: black;">Delete</button>
+    </form>
+    <%}%>
+    </div>
+
+
+
+
+<!-- reviews -->
+  <div class="row">
+    <div class="col-8 offset-2">
+     <% if(userInfo) {%>
+      <hr>
+    <h3 class="offset-4">Ratings & Reviews<h1>
+    <br>
+    <form action="/listings/<%=listItem._id%>/review" class="needs-validation" novalidate method="Post"> 
+    <h4>Leave a review here:</h1>
+    <div class="mb3">
+    <!-- <label for="rating" class="form-label" style="font-size: large;">Rating</label>
+    <input type="range" min="1" max="5" id="rating" name="review[rating]" class="form-control form-range"> -->
+    <!-- rating styling -->
+
+      <fieldset class="starability-slot" required>
+  <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="0" checked aria-label="No rating." />
+  <input type="radio" id="first-rate1" name="review[rating]" value="1" />
+  <label for="first-rate1" title="Terrible">1 star</label>
+  <input type="radio" id="first-rate2" name="review[rating]" value="2" />
+  <label for="first-rate2" title="Not good">2 stars</label>
+  <input type="radio" id="first-rate3" name="review[rating]" value="3" />
+  <label for="first-rate3" title="Average">3 stars</label>
+  <input type="radio" id="first-rate4" name="review[rating]" value="4" />
+  <label for="first-rate4" title="Very good">4 stars</label>
+  <input type="radio" id="first-rate5" name="review[rating]" value="5" />
+  <label for="first-rate5" title="Amazing">5 stars</label>
+</fieldset>
+    </div>
+    <div class="mb3">
+    <label for="comment" class="form-label" style="font-size: large;">comment</label>
+    <textarea name="review[comment]" id="review" rows="5" cols="10" placeholder="enter description" class="form-control" required></textarea>
+    <div class="invalid-feedback"> <h5>Please add a review </h5></div>
+    </div>
+    <button class="btn btn-dark" >Submit</button>
+    </form>
+     <%}%>
+       <hr>
+      <div class="row">
+        <h4><b>All Reviews</b></h4>
+        <%for(let review of listItem.reviews){%>
+          <div class="review-card col-5 ">
+            <div class="card-body ">
+              <h4 class="card-title">@<%=review.author.username%></h4>
+              <h6 class="card-text">
+                  <p class="starability-result" data-rating=<%=review.rating%>></p>
+              </h6>
+              <h6 class="card-text"><%=review.comment%></h6>
+            </div>
+           <% if(userInfo && userInfo._id.equals(review.author._id)){ %>
+            <form action="/listings/<%=listItem._id%>/reviews/<%=review._id%>?_method=DELETE" method="post">
+              <button class="btn btn-dark mb-2">delete</button>
+            </form>
+            <%}%>
+          </div>
+        <%}%>
+        </div>
+       </div>
+    </div>
+  </div>
+  </div>
+
+  <script>// Example starter JavaScript for disabling form submissions if there are invalid fields
+(() => {
+  'use strict'
+
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  const forms = document.querySelectorAll('.needs-validation')
+
+  // Loop over them and prevent submission
+  Array.from(forms).forEach(form => {
+    form.addEventListener('submit', event => {
+      if (!form.checkValidity()) {
+        event.preventDefault()
+        event.stopPropagation()
+      }
+
+      form.classList.add('was-validated')
+    }, false)
+  })
+})()
+
+  let taxSwitch=document.getElementById("flexSwitchCheckDefault");
+   taxSwitch.addEventListener("click",()=>{
+   let taxes=document.getElementsByClassName("tax")
+   for(let tax of taxes){
+   if(tax.style.display !='inline'){
+    tax.style.display="inline"
+   }else{
+    tax.style.display="none"
+   }
+  }
+  
+ })
+
+</script>
+
+</body>
+
+
+
+
+    
+
+     
+
+
+
