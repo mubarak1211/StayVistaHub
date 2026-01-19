@@ -44,24 +44,26 @@ main()
         console.log(err)
     })
 
+const store = MongoStore.create({
+  mongoUrl: process.env.DB_LINK,
+  crypto: {
+    secret: process.env.MY_SECRET
+  },
+  touchAfter: 24 * 3600 // reduce db writes
+});
 
-// let store=MongoStore.create({
-//     client: mongoose.connection.getClient(),
-//     crypto:{
-//         secret:process.env.MY_SECRET;
-//     },
-//     touchAfter:24 * 60 *60
-// })
+store.on("error", (err) => {
+  console.log("SESSION STORE ERROR:", err);
+});
 
-// store.on("error",()=>{
-//     console.log("error in mongoose session store")
-// })
+
 
 //include store
 const sessionOptions={
+   
     secret:process.env.MY_SECRET,
     resave:false,
-    saveUninitialized:true,
+    saveUninitialized:false,
     cookies:{
         expires:Date.now() + 10 * 24 * 60 * 60 * 1000,
         maxAge:10 * 24 * 60 * 60 * 1000,
