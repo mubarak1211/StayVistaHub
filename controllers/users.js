@@ -34,7 +34,6 @@ module.exports.renderSignIn=(req,res)=>{
 module.exports.redirect=async(req,res)=>{
    req.flash("success","welcome back to StayVistaHub")
    const redirectUrl1=res.locals.redirectUrl || "/listings";
-   console.log(redirectUrl1)
    return res.redirect(redirectUrl1)
 }
 

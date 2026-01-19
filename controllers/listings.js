@@ -45,7 +45,7 @@ module.exports.renderEditForm=async (req,res)=>{
     let {id}=req.params;
     let item=await Listing.findById(id);
     let originalUrl=item.image.url;
-    origianlUrl=originalUrl.replace("/upload","/upload/h-300,w_250/");
+    originalUrl=originalUrl.replace("/upload","/upload/h-300,w_250/");
     return res.render("./listsEJS/edit.ejs",{item,originalUrl})
 }
 
@@ -101,6 +101,5 @@ module.exports.postEditForm=async (req,res)=>{
 module.exports.deleteListing=async (req,res)=>{
     let {id} = req.params;
     await Listing.findByIdAndDelete(id);
-       res.locals.mk=req.flash("del");
     return res.redirect("/listings")
 }

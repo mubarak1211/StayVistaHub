@@ -60,7 +60,7 @@ store.on("error", (err) => {
 
 //include store
 const sessionOptions={
-   
+    store,
     secret:process.env.MY_SECRET,
     resave:false,
     saveUninitialized:false,
