@@ -44,23 +44,24 @@ main()
         console.log(err)
     })
 
-const store = MongoStore.create({
-  mongoUrl: process.env.DB_LINK,
-  crypto: {
-    secret: process.env.MY_SECRET
-  },
-  touchAfter: 24 * 3600 // reduce db writes
-});
+// const store = MongoStore.create({
+//   mongoUrl: process.env.DB_LINK,
+//   crypto: {
+//     secret: process.env.MY_SECRET
+//   },
+//   touchAfter: 24 * 3600 // reduce db writes
+// });
 
-store.on("error", (err) => {
-  console.log("SESSION STORE ERROR:", err);
-});
+// store.on("error", (err) => {
+//   console.log("SESSION STORE ERROR:", err);
+// });
 
+//while deploying we want to use this mongo-connect (store)
 
 
 //include store
 const sessionOptions={
-    store,
+    // store,
     secret:process.env.MY_SECRET,
     resave:false,
     saveUninitialized:false,
