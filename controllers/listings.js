@@ -101,5 +101,6 @@ module.exports.postEditForm=async (req,res)=>{
 module.exports.deleteListing=async (req,res)=>{
     let {id} = req.params;
     await Listing.findByIdAndDelete(id);
+    req.flash("failure","listing deleted successfully")
     return res.redirect("/listings")
 }

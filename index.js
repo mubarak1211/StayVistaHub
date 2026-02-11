@@ -56,26 +56,45 @@ main()
 //   console.log("SESSION STORE ERROR:", err);
 // });
 
+
+// app.set("trust proxy", 1);
+
+const store = MongoStore.create({
+  mongoUrl: process.env.DB_LINK,
+});
+
+store.on("error", (err) => {
+  console.log("SESSION STORE ERROR:", err);
+});
+
 //while deploying we want to use this mongo-connect (store)
 
+//   client: mongoose.connection.getClient(),
+//   crypto: {
+//     secret: process.env.MY_SECRET,
+//   },
+//   touchAfter: 24 * 3600,
 
-//include store
-const sessionOptions={
-    // store,
-    secret:process.env.MY_SECRET,
-    resave:false,
-    saveUninitialized:false,
-    cookies:{
-        expires:Date.now() + 10 * 24 * 60 * 60 * 1000,
-        maxAge:10 * 24 * 60 * 60 * 1000,
-        httpOnly:true
-    }
+app.use(
+  session({
+    store,
+    name: "stayvista_session", // optional but clean
+    secret: process.env.MY_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production", // IMPORTANT
+      sameSite: "lax",
+      maxAge: 1000 * 60 * 60 * 24,
+    },
+  })
+);
+
+if (process.env.NODE_ENV === "production") {
+  app.set("trust proxy", 1);
 }
 
-
-
-
-app.use(session(sessionOptions));
 app.use(flash());
 
 // Passport work
@@ -105,11 +124,25 @@ app.all(/.*/, (req, res,next) => {
   next(new ExpressError(404,"Page not found"))
 });
 
-app.use((err,req,res,next)=>{
-    let {status=420,message="something went wrong"}=err;
-    res.render("./listsEJS/error.ejs",{message})
+// app.use((err,req,res,next)=>{
+//     let {status=420,message="something went wrong"}=err;
+//     res.render("./listsEJS/error.ejs",{message})
     
-})
+// })
+
+app.use((err, req, res, next) => {
+    console.error(err);
+
+    if (res.headersSent) {
+        return next(err);
+    }
+
+    let { status = 500, message = "Something went wrong" } = err;
+    res.status(status).render("./listsEJS/error.ejs", { message });
+});
+
+
+
 
 
 app.listen(port,()=>{

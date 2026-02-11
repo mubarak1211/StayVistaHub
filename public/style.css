@@ -10,6 +10,18 @@
   .main{
     flex: 1;
   }
+
+  .title{
+    font-family:'Cormorant Garamond','serif';
+    font: size 3.5rem;
+    font-weight:700;
+    letter-spacing: 2px;
+    color:#1f2933
+  }
+  .title span{
+    color:skyblue ;
+    position:relative;
+  }
   
  /* navbar */
 .navbar{
@@ -160,3 +172,4 @@ footer{
 .edit-image{
     height: 20vh;
 }
+
