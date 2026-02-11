@@ -118,7 +118,9 @@ app.use("/listings/:id/reviews",reviewRoute);
 app.use("/listings/:id/review",reviewRoute);
 app.use("/",userRoute)
 
-
+app.get("/", (req, res) => {
+    res.send("Backend is live 🚀");
+});
 
 app.all(/.*/, (req, res,next) => {
   next(new ExpressError(404,"Page not found"))
