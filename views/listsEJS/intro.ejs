@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="/intro.css">
+</head>
+<body>
+    <section class="hero">
+
+  <video autoplay muted loop playsinline class="hero-video">
+    <source src="/hero.mp4" type="video/mp4">
+  </video>
+
+  <div class="hero-overlay"></div>
+
+  <!-- Transparent Navbar -->
+  <nav class="hero-navbar">
+    <div class="logo">StayVistaHub</div>
+    <a href="/listings" class="nav-btn">Explore</a>
+  </nav>
+
+  <!-- Hero Content -->
+  <div class="hero-content">
+    <h1>Welcome to StayVistaHub</h1>
+    <h2 class="typing-text"></h2>
+    <a href="/signup" class="hero-btn">Get Started</a>
+  </div>
+
+</section>
+
+<!-- Explore Section -->
+<section id="explore-section">
+  <!-- Your listings section here -->
+</section>
+
+<script>
+const text = "Discover luxury villas and unforgettable stays";
+const typingElement = document.querySelector(".typing-text");
+
+let index = 0;
+
+function typeEffect() {
+  if (index < text.length) {
+    typingElement.innerHTML += text.charAt(index);
+    index++;
+    setTimeout(typeEffect, 50);
+  }
+}
+
+window.onload = typeEffect;
+</script>
+</body>
+</html>
+

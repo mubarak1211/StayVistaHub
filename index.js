@@ -98,7 +98,7 @@ app.use("/listings/:id/review",reviewRoute);
 app.use("/",userRoute)
 
 app.get("/", (req, res) => {
-    res.send("Backend is live 🚀");
+    res.render("./listsEJS/intro.ejs");
 });
 
 app.all(/.*/, (req, res,next) => {
