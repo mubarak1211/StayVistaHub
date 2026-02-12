@@ -30,8 +30,8 @@
 <body >
   <!-- view page -->
     <div class="row ">
-        <div class="col-8 offset-2">
-<div class="card col-8 offset-2 mt-5">
+        <div class="col-10 ">
+<div class="card col-10 offset-2 mt-5">
       <h5><b class="card-text"><%=listItem.title%></b></h5><br>
   <img class="card-img-top view-image " src="<%=listItem.image.url%>" alt="Card image cap" >
   <div class="card-body view-body">
@@ -76,10 +76,10 @@
 
 <!-- reviews -->
   <div class="row">
-    <div class="col-8 offset-2">
+    <div class="col-10 offset-2">
      <% if(userInfo) {%>
       <hr>
-    <h3 class="offset-4">Ratings & Reviews<h1>
+    <h3 class="offset-2">Ratings & Reviews<h1>
     <br>
     <form action="/listings/<%=listItem._id%>/review" class="needs-validation" novalidate method="Post"> 
     <h4>Leave a review here:</h1>
@@ -111,10 +111,10 @@
     </form>
      <%}%>
        <hr>
-      <div class="row">
+      <div class="row col-12">
         <h4><b>All Reviews</b></h4>
         <%for(let review of listItem.reviews){%>
-          <div class="review-card col-5 ">
+          <div class="review-card col-10 col-sm-6 col-md-4 col-lg-4 ">
             <div class="card-body ">
               <h4 class="card-title">@<%=review.author.username%></h4>
               <h6 class="card-text">
