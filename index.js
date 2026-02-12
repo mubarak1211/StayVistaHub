@@ -44,20 +44,6 @@ main()
         console.log(err)
     })
 
-// const store = MongoStore.create({
-//   mongoUrl: process.env.DB_LINK,
-//   crypto: {
-//     secret: process.env.MY_SECRET
-//   },
-//   touchAfter: 24 * 3600 // reduce db writes
-// });
-
-// store.on("error", (err) => {
-//   console.log("SESSION STORE ERROR:", err);
-// });
-
-
-// app.set("trust proxy", 1);
 
 const store = MongoStore.create({
   mongoUrl: process.env.DB_LINK,
@@ -67,13 +53,6 @@ store.on("error", (err) => {
   console.log("SESSION STORE ERROR:", err);
 });
 
-//while deploying we want to use this mongo-connect (store)
-
-//   client: mongoose.connection.getClient(),
-//   crypto: {
-//     secret: process.env.MY_SECRET,
-//   },
-//   touchAfter: 24 * 3600,
 
 app.use(
   session({
@@ -125,12 +104,6 @@ app.get("/", (req, res) => {
 app.all(/.*/, (req, res,next) => {
   next(new ExpressError(404,"Page not found"))
 });
-
-// app.use((err,req,res,next)=>{
-//     let {status=420,message="something went wrong"}=err;
-//     res.render("./listsEJS/error.ejs",{message})
-    
-// })
 
 app.use((err, req, res, next) => {
     console.error(err);
