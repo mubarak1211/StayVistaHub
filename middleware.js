@@ -43,7 +43,6 @@ module.exports.validateReview=(req,res,next)=>{
 
 
 module.exports.isOwner=async(req,res,next)=>{
-            console.log("hitted")
         let {id}=req.params
         let listing=await Listing.findById(id)
         let listingOwner=listing.owner._id;

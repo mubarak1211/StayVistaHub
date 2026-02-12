@@ -18,7 +18,7 @@ module.exports.renderSearchResult=async(req,res)=>{
         req.flash("failure",'“Oops! We couldn’t find any stays like that.”');
         return res.redirect("/listings")
     }else{
-        return res.render("./listsEjs/listings.ejs",{data:searchListing})
+        return res.render("./listsEJS/listings.ejs",{data:searchListing})
     }
 
 }
